@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import useFetch from '../../hooks/useFetch';
 import useLocalStorage from '../../hooks/useLocalStorage';
 import TopBar from '../topBar/topBar';
+import ErrorMessages from '../error-messages/error-messages';
 import {AppRoute, ApiRoute, AuthStatus} from '../../const';
 import { saveAuthData, updateAuthStatus, updateLoaddingStatus } from '../../store/action';
 
@@ -23,7 +24,7 @@ function Auth():JSX.Element {
   const [isSuccessSubmit, setIsSuccessSubmit] = useState(false);
 
   const [{response, error, isLoading}, doFetch ] = useFetch(apiUrl);
-  const [token, setToken] = useLocalStorage('realworld-token');
+  const [, setToken] = useLocalStorage('realworld-token');
 
   const dispatch = useDispatch();
 
@@ -31,7 +32,7 @@ function Auth():JSX.Element {
   console.log('render');
 
   // eslint-disable-next-line no-console
-  console.log('response, error, isLoading', response, error, isLoading, token);
+  // console.log('response, error, isLoading', response, error, isLoading, token);
 
   const handleSubmit = (evt: React.MouseEvent<HTMLElement>) => {
     evt.preventDefault();
@@ -74,6 +75,7 @@ function Auth():JSX.Element {
               <p className="text-xs-center">
                 <Link to={descriptionLink}>{descriptionText}</Link>
               </p>
+              {error && <ErrorMessages errorMessages={error}/>}
               <form>
                 <fieldset>
                   {!isLogin && (

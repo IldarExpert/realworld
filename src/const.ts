@@ -4,6 +4,7 @@ export const AppRoute = {
   GlobalFeed: '/globalFeed:slug',
   Login: '/login',
   Register: '/register',
+  User: '/user',
 };
 
 export const ApiRoute = {
@@ -11,8 +12,8 @@ export const ApiRoute = {
   Register: '/users',
 };
 
-export const AuthStatus = {
-  Auth: 'AUTH',
-  NoAuth: 'NO_AUTH',
-  Unknown: 'UNKNOWN',
-};
+export enum AuthStatus {
+  Auth = 'AUTH',
+  NoAuth = 'NO_AUTH',
+  Unknown = 'UNKNOWN',
+}

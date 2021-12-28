@@ -1,7 +1,10 @@
+import { AuthStatus } from '../const';
+import { RootState } from '../store/root-reducer';
+
 export type UserReducer = {
   user: UserReducerFromServer,
   isLoading: boolean,
-  authStatus: string,
+  authStatus: AuthStatus,
 };
 
 export type UserReducerFromServer = {
@@ -12,3 +15,4 @@ export type UserReducerFromServer = {
   username: string,
 }
 
+export type State = RootState;
