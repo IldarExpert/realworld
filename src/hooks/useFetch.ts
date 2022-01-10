@@ -16,9 +16,7 @@ function useFetch(url: string): any {
   }, []);
 
   useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log('useEffect');
-
+    let skipGetResponseAfterDestroy = false;
     if (!isLoading) {
       return;
     }
@@ -35,15 +33,18 @@ function useFetch(url: string): any {
 
     axios(`${BASE_URL}${url}`, option)
       .then((result: AxiosResponse) => {
-        // eslint-disable-next-line no-console
-        console.log('result', result);
-        setResponse(result.data);
-        setIsLoading(false);
+        if (!skipGetResponseAfterDestroy) {
+          setResponse(result.data);
+          setIsLoading(false);
+        }
       })
       .catch((err: AxiosError) => {
-        setError(err.response?.data);
-        setIsLoading(false);
+        if (!skipGetResponseAfterDestroy) {
+          setError(err.response?.data);
+          setIsLoading(false);
+        }
       });
+    return () => {skipGetResponseAfterDestroy = true;};
   }, [isLoading, option, url, token]);
 
 

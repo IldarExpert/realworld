@@ -5,9 +5,7 @@ import { getAuthStatus, getUser } from '../../store/user-reducer/selectors';
 
 function TopBar (): JSX.Element {
   const authData = useSelector(getAuthStatus);
-  const {username, image, email} = useSelector(getUser);
-  // eslint-disable-next-line no-console
-  console.log('username, image, email', username, image, email);
+  const {username, image} = useSelector(getUser);
 
   return (
     <nav className="navbar navbar-light">
@@ -36,8 +34,14 @@ function TopBar (): JSX.Element {
             </>):
             <>
               <li className="nav-item">
-                <NavLink className="nav-link" to="/editor/">
+                <NavLink className="nav-link" to={AppRoute.NewArticle}>
                   <i className="ion-compose"></i>&nbsp;New Article
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink to={AppRoute.Settings} className="nav-link">
+                  <i className="ion-gear-a" />
+                  &nbsp; Settings
                 </NavLink>
               </li>
               <li className="nav-item">

@@ -1,4 +1,6 @@
 import { Link } from 'react-router-dom';
+import TagList from '../tag-list/tag-list';
+import {ApiRoute} from '../../const';
 
 type Author = {
   username: string,
@@ -14,8 +16,7 @@ type Comment = {
   updatedAt: string,
 }
 
-type ArticlesProps = {
-  articles: {
+export type ArticleProps = {
   author: Author,
   body: string,
   comments: Comment[][],
@@ -27,7 +28,10 @@ type ArticlesProps = {
   tagList: string[],
   title: string,
   updatedAt: string,
-  }[]
+  }
+
+export type ArticlesProps = {
+  articles: ArticleProps[],
   };
 
 
@@ -50,17 +54,11 @@ function Feed ({articles}: ArticlesProps): JSX.Element {
               <span className="date">{article.createdAt}</span>
             </div>
           </div>
-          <Link to={`/articles/${article.slug}`} className="preview-link">
+          <Link to={`${ApiRoute.Article}/${article.slug}`} className="preview-link">
             <h1>{article.title}</h1>
             <p>{article.description}</p>
             <span>Read more...</span>
-            <ul className="tag-list">
-              {article.tagList.map((tag) => (
-                <li key={tag} className="tag-default tag pill tag-outline">
-                  {tag}
-                </li>
-              ))}
-            </ul>
+            <TagList tags={article.tagList} />
           </Link>
         </div>
       ))}

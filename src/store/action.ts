@@ -9,6 +9,10 @@ export const saveAuthData = createAction(
   }),
 );
 
+export const logOut = createAction(
+  ActionType.Logout,
+);
+
 export const updateLoaddingStatus = createAction(
   ActionType.UpdateLoaddingStatus,
   (status) => ({

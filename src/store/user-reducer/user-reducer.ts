@@ -1,7 +1,7 @@
 import {createReducer} from '@reduxjs/toolkit';
-import { saveAuthData, updateAuthStatus, updateLoaddingStatus } from '../action';
-import { UserReducer } from '../../types/state';
-import { AuthStatus } from '../../const';
+import {logOut, saveAuthData, updateAuthStatus, updateLoaddingStatus} from '../action';
+import {UserReducer} from '../../types/state';
+import {AuthStatus} from '../../const';
 
 const initialState: UserReducer = {
   user: {
@@ -18,16 +18,20 @@ const initialState: UserReducer = {
 const userReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(saveAuthData, (state, action) => {
-      const user = action.payload;
-      state.user = user;
+      // const user = action.payload;
+      state.user = action.payload;
+    })
+    .addCase(logOut, (state, action) => {
+      state.user = initialState.user;
+      state.authStatus = AuthStatus.NoAuth;
     })
     .addCase(updateAuthStatus, (state, action) => {
-      const authStatus = action.payload;
-      state.authStatus = authStatus;
+      // const authStatus = action.payload;
+      state.authStatus = action.payload;
     })
     .addCase(updateLoaddingStatus, (state, action) => {
-      const isLoading = action.payload;
-      state.isLoading = isLoading;
+      // const isLoading = action.payload;
+      state.isLoading = action.payload;
     });
 });
 

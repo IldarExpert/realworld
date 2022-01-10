@@ -3,4 +3,5 @@ export const ActionType = {
   UpdateLoaddingStatus: 'user/loadingStatus',
   UpdateAuthStatus: 'user/authStatus',
   CheckAuthAction: 'user/checkAuthAction',
+  Logout: 'user.logout',
 };

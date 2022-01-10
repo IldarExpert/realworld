@@ -1,43 +1,36 @@
-import { useState, useEffect } from 'react';
+import {useState, useEffect} from 'react';
 import {Link, Redirect, useLocation} from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import {useDispatch} from 'react-redux';
 import useFetch from '../../hooks/useFetch';
 import useLocalStorage from '../../hooks/useLocalStorage';
-import TopBar from '../topBar/topBar';
 import ErrorMessages from '../error-messages/error-messages';
 import {AppRoute, ApiRoute, AuthStatus} from '../../const';
-import { saveAuthData, updateAuthStatus, updateLoaddingStatus } from '../../store/action';
+import {saveAuthData, updateAuthStatus, updateLoaddingStatus} from '../../store/action';
 
 
-function Auth():JSX.Element {
+function Auth(): JSX.Element {
   const location = useLocation();
   const isLogin = location.pathname === AppRoute.Login;
 
-  const pageTitle = isLogin? 'Sign in': 'Sign up';
-  const descriptionLink = isLogin? AppRoute.Register: AppRoute.Login;
-  const descriptionText = isLogin? 'Need an account?': 'Have an account?';
-  const apiUrl = isLogin? ApiRoute.Login: ApiRoute.Register;
+  const pageTitle = isLogin ? 'Sign in' : 'Sign up';
+  const descriptionLink = isLogin ? AppRoute.Register : AppRoute.Login;
+  const descriptionText = isLogin ? 'Need an account?' : 'Have an account?';
+  const apiUrl = isLogin ? ApiRoute.Login : ApiRoute.Register;
 
   const [username, setUserName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isSuccessSubmit, setIsSuccessSubmit] = useState(false);
 
-  const [{response, error, isLoading}, doFetch ] = useFetch(apiUrl);
+  const [{response, error, isLoading}, doFetch] = useFetch(apiUrl);
   const [, setToken] = useLocalStorage('realworld-token');
 
   const dispatch = useDispatch();
 
-  // eslint-disable-next-line no-console
-  console.log('render');
-
-  // eslint-disable-next-line no-console
-  // console.log('response, error, isLoading', response, error, isLoading, token);
-
   const handleSubmit = (evt: React.MouseEvent<HTMLElement>) => {
     evt.preventDefault();
 
-    const user = isLogin? {email, password} : {email, password, username};
+    const user = isLogin ? {email, password} : {email, password, username};
 
     doFetch({
       method: 'POST',
@@ -59,71 +52,67 @@ function Auth():JSX.Element {
     setIsSuccessSubmit(true);
   }, [response, setToken, dispatch]);
 
-  if(isSuccessSubmit) {
-    return <Redirect to={AppRoute.Main} />;
+  if (isSuccessSubmit) {
+    return <Redirect to={AppRoute.Main}/>;
   }
 
 
   return (
-    <>
-      <TopBar />
-      <div className="auth-page">
-        <div className="container page">
-          <div className="row">
-            <div className="col-md-6 offset-md-3 col-xs-12">
-              <h1 className="text-xs-center">{pageTitle}</h1>
-              <p className="text-xs-center">
-                <Link to={descriptionLink}>{descriptionText}</Link>
-              </p>
-              {error && <ErrorMessages errorMessages={error}/>}
-              <form>
-                <fieldset>
-                  {!isLogin && (
-                    <fieldset className="form-group">
-                      <input
-                        type="text"
-                        className="form-control form-control-lg"
-                        placeholder="Username"
-                        value={username}
-                        onChange={(evt) => setUserName(evt.target.value)}
-                      />
-                    </fieldset>
-                  )}
+    <div className="auth-page">
+      <div className="container page">
+        <div className="row">
+          <div className="col-md-6 offset-md-3 col-xs-12">
+            <h1 className="text-xs-center">{pageTitle}</h1>
+            <p className="text-xs-center">
+              <Link to={descriptionLink}>{descriptionText}</Link>
+            </p>
+            {error && <ErrorMessages errorMessages={error}/>}
+            <form>
+              <fieldset>
+                {!isLogin && (
                   <fieldset className="form-group">
                     <input
-                      type="email"
+                      type="text"
                       className="form-control form-control-lg"
-                      placeholder="Email"
-                      value={email}
-                      onChange={(evt) => setEmail(evt.target.value)}
+                      placeholder="Username"
+                      value={username}
+                      onChange={(evt) => setUserName(evt.target.value)}
                     />
                   </fieldset>
-                  <fieldset className="form-group">
-                    <input
-                      type="password"
-                      className="form-control form-control-lg"
-                      placeholder="Password"
-                      value={password}
-                      autoComplete="on"
-                      onChange={(evt) => setPassword(evt.target.value)}
-                    />
-                  </fieldset>
-                  <button
-                    className="btn btn-lg btn-primary pull-xs-right"
-                    type="submit"
-                    disabled={isLoading}
-                    onClick={handleSubmit}
-                  >
-                    {pageTitle}
-                  </button>
+                )}
+                <fieldset className="form-group">
+                  <input
+                    type="email"
+                    className="form-control form-control-lg"
+                    placeholder="Email"
+                    value={email}
+                    onChange={(evt) => setEmail(evt.target.value)}
+                  />
                 </fieldset>
-              </form>
-            </div>
+                <fieldset className="form-group">
+                  <input
+                    type="password"
+                    className="form-control form-control-lg"
+                    placeholder="Password"
+                    value={password}
+                    autoComplete="on"
+                    onChange={(evt) => setPassword(evt.target.value)}
+                  />
+                </fieldset>
+                <button
+                  className="btn btn-lg btn-primary pull-xs-right"
+                  type="submit"
+                  disabled={isLoading}
+                  onClick={handleSubmit}
+                >
+                  {pageTitle}
+                </button>
+              </fieldset>
+            </form>
           </div>
         </div>
       </div>
-    </>
-
+    </div>
   );
 }
 

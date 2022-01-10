@@ -1,5 +1,5 @@
-import {useEffect} from 'react';
-import {useLocation} from 'react-router-dom';
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import Feed from '../feed/feed';
 import PopularTags from '../popular-tags/popular-tags';
 import useFetch from '../../hooks/useFetch';
@@ -7,13 +7,13 @@ import Pagination from '../pagination/pagination';
 import {ApiRoute, LIMIT_PER_PAGE} from '../../const';
 import FeedToggler from '../feed-toggler/feed-toggler';
 
-function GlobalFeed(): JSX.Element {
+function YourFeed (): JSX.Element {
   const location = useLocation();
   const [, value] = location.search.split('?page=');
-  const currentPage = Number(value ? value : 1);
+  const currentPage = Number(value? value: 1);
 
-  const apiUrl = `/${ApiRoute.Articles}?limit=${LIMIT_PER_PAGE}&offset=${(currentPage - 1) * LIMIT_PER_PAGE}`;
-  const [{response, error, isLoading}, doFetch] = useFetch(apiUrl);
+  const apiUrl = `/${ApiRoute.YourFeed}?limit=${LIMIT_PER_PAGE}&offset=${(currentPage - 1)*LIMIT_PER_PAGE}`;
+  const [{response, error, isLoading}, doFetch ] = useFetch(apiUrl);
 
   useEffect(() => {
     doFetch();
@@ -28,22 +28,22 @@ function GlobalFeed(): JSX.Element {
       <div className="container page">
         <div className="row">
           <div className="col-md-9">
-            <FeedToggler/>
+            <FeedToggler />
             {isLoading && <div>Loading...</div>}
             {error && <div>Some error happened</div>}
             {!isLoading && response && (
               <>
-                <Feed articles={response.articles}/>
+                <Feed articles={response.articles} />
                 <Pagination
                   articlesCount={response.articlesCount}
-                  currentPage={currentPage}
-                  pageLimit={LIMIT_PER_PAGE}
+                  currentPage = {currentPage}
+                  pageLimit = {LIMIT_PER_PAGE}
                 />
               </>
             )}
           </div>
           <div className="col-md-3">
-            <PopularTags/>
+            <PopularTags />
           </div>
         </div>
       </div>
@@ -51,4 +51,4 @@ function GlobalFeed(): JSX.Element {
   );
 }
 
-export default GlobalFeed;
+export default YourFeed;
